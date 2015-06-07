@@ -1,0 +1,44 @@
+"use strict";
+
+$(document).ready(function(){
+
+    navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
+
+    // Gets the user's location
+
+    function positionSuccess(position){
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+
+      $('#lat').replaceWith(latitude);
+      $('#long').replaceWith(longitude);
+    }
+
+    function positionError(error){
+      console.warn('ERROR: ' + error.code + ': ' + error.message);
+    }
+
+    // Uses the location to pull the nearest bus stops
+
+
+    function nearestStops(){
+      var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=40.708727599999996&lon=-74.002798&latSpan=0.005&lonSpan=0.005&key=<%= ENV['MTA_API_KEY'] %>" ;
+
+      $.ajax({
+        type: "GET",
+        dataType: "jsonp",
+        url: response,
+        data: {},
+        success: function(result){
+          debugger;
+        }
+      });
+
+
+      }
+
+
+      nearestStops();
+
+
+});
