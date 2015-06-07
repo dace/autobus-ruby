@@ -6,6 +6,8 @@ $(document).ready(function(){
       var latitude;
       var longitude;
 
+    // Gets the user's location
+
     function positionSuccess(position){
       latitude = position.coords.latitude;
       longitude = position.coords.longitude;
@@ -17,6 +19,10 @@ $(document).ready(function(){
     function positionError(error){
       console.warn('ERROR: ' + error.code + ': ' + error.message);
     }
+
+    // Uses the location to pull the nearest bus stops
+
+    
 
 
   })
