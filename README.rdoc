@@ -1,4 +1,4 @@
-== Gets Here
+== Autobus
 
 A mobile in-browser app that pinpoints a user's exact location, determines the nearest MTA Bus stop and delivers real-time data on when the next bus will arrive at that stop. 
 
