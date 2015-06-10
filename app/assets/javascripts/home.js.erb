@@ -1,7 +1,18 @@
+//"use strict";
+
+  
+    // 1. For each bus stop on the SIRI tracking (real time bus tracker), if the id matches the id code from the array of BusStop objects (in nearestBusStops) then add a Prototype to that object of how far the nearest bus is from that stop. 
+
+    // 2. Iterate over each object in the array of busStops and present each to the user on the page.
+
+    
+
+
 "use strict";
 
 $(document).ready(function(){
-
+    
+    
     navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
 
     // Gets the user's location
@@ -11,10 +22,11 @@ $(document).ready(function(){
       var longitude = position.coords.longitude;
 
         var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=" + latitude + "&lon=" + longitude + "&latSpan=0.003&lonSpan=0.003&key=<%= ENV['MTA_API_KEY'] %>" ;
-        // debugger;
-      function nearestStops(){
-        // debugger;
-        // var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=40.708727599999996&lon=-74.002798&latSpan=0.005&lonSpan=0.005&key=<%= ENV['MTA_API_KEY'] %>" ;
+        
+      function findNearestStops(){
+        
+        var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=" + latitude + "&lon=" + longitude + "&latSpan=0.003&lonSpan=0.003&key=<%= ENV['MTA_API_KEY'] %>" ;
+        
 
         $.ajax({
           type: "GET",
@@ -23,27 +35,103 @@ $(document).ready(function(){
           data: {},
           success: function(result){    
             var stopObjects = $(result)[0].data.stops ;
-            
-              
-            [].forEach.call(stopObjects, function(stopObjects){
-                
-                var stopName = stopObjects.name.toLowerCase();
-              $('#stops').append(
-                "Bus Stop Location: " + stopName + '<br>'
-            );
-              
-          });
+            var nearestBusStops = [];
 
-          }
+            [].forEach.call(stopObjects, function(stopObject){        
+                [].forEach.call(stopObject.routes, function(route){
+
+                  var regexDirection = /- (.*)/;
+
+                  nearestBusStops.push({
+                    stopId: stopObject.code,
+                    busId: route.shortName,
+                    crossStreets: stopObject.name,
+                    direction: regexDirection.exec(route.longName)[1]//,
+                  });
+                    debugger;
+                })    
+
+            }); 
+
+//            return nearestBusStops;
+          }                    
         });
-        
-
       }
-      nearestStops();
+           findNearestStops();                // debugger;
     }
 
     function positionError(error){
       console.warn('ERROR: ' + error.code + ': ' + error.message);
     }
 
+
+
 });
+
+
+
+
+// 
+
+// $(document).ready(function(){
+
+//     // Gets the user's location
+
+//     navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
+
+//     function positionSuccess(position){
+//       var latitude = position.coords.latitude;
+//       var longitude = position.coords.longitude;
+//       // $(#stops).append(latitude)
+//       var response =  ;
+//       return response;
+//       // return var currentPosition = {lat: latitude, lng: longitude};
+//     }
+
+//     function positionError(error){
+//       var locationError = 'ERROR: ' + error.code + ': ' + error.message;
+//     }
+
+     
+//       function getNearestStops(response){
+//         $.ajax({
+//           type: "GET",
+//           dataType: "jsonp",
+//           url: response,
+//           data: {},
+//           success: function(result){    
+//             return var stopObjects = $(result)[0].data.stops;
+//           };
+//         });
+//       }
+
+//       getNearestStops(response);
+
+
+//     [].forEach.call(stopObjects, function(stopObjects){   
+//                 var stopName = stopObjects.name.toLowerCase();
+//               $('#stops').append(
+//                 "Bus Stop Location: " + stopName + '<br>'
+//             );
+//           });
+
+
+
+
+
+
+//     // // Store nearest bus stops as objects
+
+//     // nearestBusStops = [];
+
+//     // function BusStop(stopId, streets, direction, nextBus){
+//     //   this.stopId = stopId;
+//     //   this.streets = streets;
+//     //   this.direction = direction;
+//     //   this.nextBus = nextBus;
+//     // }
+
+// });
+
+
+
