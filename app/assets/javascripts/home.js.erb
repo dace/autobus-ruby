@@ -42,22 +42,60 @@ $(document).ready(function(){
 
                   var regexDirection = /- (.*)/;
 
+                  // Creates a new bus stop object and pushes to nearestBusStops
                   nearestBusStops.push({
                     stopId: stopObject.code,
                     busId: route.shortName,
                     crossStreets: stopObject.name,
-                    direction: regexDirection.exec(route.longName)[1]//,
+                    direction: regexDirection.exec(route.longName)[1],
+                    nextBus: []
                   });
-                    debugger;
                 })    
 
             }); 
+                
 
-//            return nearestBusStops;
-          }                    
+                 // debugger; returns nearestBusStops here;
+
+                nearestBusStops.forEach(function(busStop){
+                  
+                  var buses = "http://bustime.mta.info/api/siri/stop-monitoring.json?key=<%= ENV['MTA_API_KEY'] %>&MonitoringRef=" +busStop.stopId;
+
+                  $.ajax({
+                    type: "GET",
+                    dataType: "jsonp",
+                    url: buses,
+                    data: {},
+                    success: function(result){
+                      var allBuses = result.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit;
+                      // debugger;
+                      busStop
+                      // debugger;
+                      allBuses.forEach(function(thisBus){
+                        var faraway = thisBus.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance ;
+                        // debugger;
+                        busStop.nextBus.push(faraway);
+                      })
+
+                    }
+                  });
+
+                  // debugger;
+                });
+
+
+
+                return nearestBusStops;
+
+
+
+          }          
+                    
         });
+                        debugger;
+        
       }
-           findNearestStops();                // debugger;
+           findNearestStops();               // debugger;        
     }
 
     function positionError(error){
