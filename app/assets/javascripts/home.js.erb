@@ -47,27 +47,25 @@ function findNearestStops(response){
 
 
 function groupStopsWithRoutes(stopObjects){
-  var uniqueStopIDs = [];
-  var groupedStopsByID = [];
+  var allStopIDs = [];
  
   // Only need unique stop IDs for now -- use those unique IDs to grab all the information in the call to the approaching buses API.
 
     stopObjects.forEach(function(stopObject){
-            debugger;
+            allStopIDs.push(stopObject.code);
         
-        if (groupedStopsByID.length === 0){
-          var newStop = {
-            stopID: stopObject.code,
-            crossStreets: stopObject.name,
-            routes: []
-          }
-          groupedStopsByID.push(newStop);
-        } else if {
-
-        }
+        // if (groupedStopsByID.length === 0){
+        //   var newStop = {
+        //     stopID: stopObject.code,
+        //     crossStreets: stopObject.name,
+        //     routes: []
+        //   }
+        //   groupedStopsByID.push(newStop);
+        // } 
     })
          // debugger; // console.log(groupedStopsByID);
-
+  var uniqueStopIDs = _.uniq(allStopIDs)
+  debugger;
 }
 
 // function getRoutesRequest(stopObjects){
@@ -134,6 +132,3 @@ function groupStopsWithRoutes(stopObjects){
 //                 // debugger;
 
 //     }
-
-
-
