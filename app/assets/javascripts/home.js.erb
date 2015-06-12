@@ -2,38 +2,30 @@
 
 $(document).ready(function(){
 
-      // Gets the user's location
-      navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
+  navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
 
-      // Executes if a position is found
-      function positionSuccess(position){
-        var latitude = position.coords.latitude;
-        var longitude = position.coords.longitude;
-        
-        var currentLocationRequest = stopMonitorRequest(latitude, longitude);
-        var stops = findNearestStops(currentLocationRequest);
-        // var routeObjects = ;
+  function positionSuccess(position){
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    
+    var currentLocationRequest = stopMonitorRequest(latitude, longitude);
+    findNearestStops(currentLocationRequest);
+  }
 
-      }
-
-      // Executes if no position is found
-      function positionError(error){
-        return console.warn('ERROR: ' + error.code + ': ' + error.message);
-      }
+  function positionError(error){
+    return console.warn('ERROR: ' + error.code + ': ' + error.message);
+  }
 
 });
     
 
-
-
-
-
+// Creates a URL for the MTA's stop API with the user's current location
 function stopMonitorRequest(latitude, longitude){
   var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=" + latitude + "&lon=" + longitude + "&latSpan=0.003&lonSpan=0.003&key=<%= ENV['MTA_API_KEY'] %>" ;
   return response;
 }
 
-
+// Finds all the nearest bus stops
 function findNearestStops(response){
   $.ajax({
     type: "GET",
@@ -42,21 +34,66 @@ function findNearestStops(response){
     data: {},
     success: function(result){    
       var stopObjects = Array.prototype.slice.call(result.data.stops);
-      getRoutesRequest(stopObjects);
+      groupStopsWithRoutes(stopObjects);
     }
   })
 }
-               
+           
+// {
+//   stopID: "13432142",
+//   routes: [{object1}, {object2}, {object3}]
+// }
 
-function getRoutesRequest(stopObjects){
-  var allRoutes = [];
-  
-  stopObjects.forEach(function(busStop){
-     allRoutes.push("http://bustime.mta.info/api/siri/stop-monitoring.json?key=<%= ENV['MTA_API_KEY'] %>&MonitoringRef=" + busStop.stopId);
-  })
-  debugger;
-  return allRoutes;
+
+
+function groupStopsWithRoutes(stopObjects){
+  var uniqueStopIDs = [];
+  var groupedStopsByID = [];
+ 
+  // Only need unique stop IDs for now -- use those unique IDs to grab all the information in the call to the approaching buses API.
+
+    stopObjects.forEach(function(stopObject){
+            debugger;
+        
+        if (groupedStopsByID.length === 0){
+          var newStop = {
+            stopID: stopObject.code,
+            crossStreets: stopObject.name,
+            routes: []
+          }
+          groupedStopsByID.push(newStop);
+        } else if {
+
+        }
+    })
+         // debugger; // console.log(groupedStopsByID);
+
 }
+
+// function getRoutesRequest(stopObjects){
+//   var allRouteObjects = [];
+//   stopObjects.forEach(function(stopObject){        
+//     stopObject.routes.forEach(function(route){
+//       allRouteObjects.push({
+//         stopId: stopObject.code,
+//         busId: route.shortName,
+//         crossStreets: stopObject.name,
+//         direction: "",
+//         nextBus: []
+//       });
+//     })    
+//   }); 
+//   checkNextBuses(allRouteObjects);
+// }
+
+
+// function checkNextBuses(allRouteObjects){
+//   allRouteObjects.forEach(function(route){
+//     console.log(route);    
+//   })
+// }
+
+
 
 
 //                   // START AJAX CALL
