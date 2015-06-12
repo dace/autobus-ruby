@@ -1,175 +1,102 @@
-//"use strict";
-
-  
-    // 1. For each bus stop on the SIRI tracking (real time bus tracker), if the id matches the id code from the array of BusStop objects (in nearestBusStops) then add a Prototype to that object of how far the nearest bus is from that stop. 
-
-    // 2. Iterate over each object in the array of busStops and present each to the user on the page.
-
-    
-
-
 "use strict";
 
 $(document).ready(function(){
-    
-    
-    navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
 
-    // Gets the user's location
+      // Gets the user's location
+      navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
 
-    function positionSuccess(position){
-      var latitude = position.coords.latitude;
-      var longitude = position.coords.longitude;
-
-        var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=" + latitude + "&lon=" + longitude + "&latSpan=0.003&lonSpan=0.003&key=<%= ENV['MTA_API_KEY'] %>" ;
+      // Executes if a position is found
+      function positionSuccess(position){
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
         
-      function findNearestStops(){
-        
-        var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=" + latitude + "&lon=" + longitude + "&latSpan=0.003&lonSpan=0.003&key=<%= ENV['MTA_API_KEY'] %>" ;
-        
+        var currentLocationRequest = stopMonitorRequest(latitude, longitude);
+        var stops = findNearestStops(currentLocationRequest);
+        // var routeObjects = ;
 
-        $.ajax({
-          type: "GET",
-          dataType: "jsonp",
-          url: response,
-          data: {},
-          success: function(result){    
-            var stopObjects = $(result)[0].data.stops ;
-            var nearestBusStops = [];
-
-            [].forEach.call(stopObjects, function(stopObject){        
-                [].forEach.call(stopObject.routes, function(route){
-
-                  var regexDirection = /- (.*)/;
-
-                  // Creates a new bus stop object and pushes to nearestBusStops
-                  nearestBusStops.push({
-                    stopId: stopObject.code,
-                    busId: route.shortName,
-                    crossStreets: stopObject.name,
-                    direction: regexDirection.exec(route.longName)[1],
-                    nextBus: []
-                  });
-                })    
-
-            }); 
-                
-
-                 // debugger; returns nearestBusStops here;
-
-                nearestBusStops.forEach(function(busStop){
-                  
-                  var buses = "http://bustime.mta.info/api/siri/stop-monitoring.json?key=<%= ENV['MTA_API_KEY'] %>&MonitoringRef=" +busStop.stopId;
-
-                  $.ajax({
-                    type: "GET",
-                    dataType: "jsonp",
-                    url: buses,
-                    data: {},
-                    success: function(result){
-                      var allBuses = result.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit;
-                      // debugger;
-                      busStop
-                      // debugger;
-                      allBuses.forEach(function(thisBus){
-                        var faraway = thisBus.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance ;
-                        // debugger;
-                        busStop.nextBus.push(faraway);
-                      })
-
-                    }
-                  });
-
-                  // debugger;
-                });
-
-
-
-                return nearestBusStops;
-
-
-
-          }          
-                    
-        });
-                        debugger;
-        
       }
-           findNearestStops();               // debugger;        
-    }
 
-    function positionError(error){
-      console.warn('ERROR: ' + error.code + ': ' + error.message);
-    }
-
-
+      // Executes if no position is found
+      function positionError(error){
+        return console.warn('ERROR: ' + error.code + ': ' + error.message);
+      }
 
 });
+    
 
 
 
 
-// 
 
-// $(document).ready(function(){
+function stopMonitorRequest(latitude, longitude){
+  var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=" + latitude + "&lon=" + longitude + "&latSpan=0.003&lonSpan=0.003&key=<%= ENV['MTA_API_KEY'] %>" ;
+  return response;
+}
 
-//     // Gets the user's location
 
-//     navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
+function findNearestStops(response){
+  $.ajax({
+    type: "GET",
+    dataType: "jsonp",
+    url: response,
+    data: {},
+    success: function(result){    
+      var stopObjects = Array.prototype.slice.call(result.data.stops);
+      getRoutesRequest(stopObjects);
+    }
+  })
+}
+               
 
-//     function positionSuccess(position){
-//       var latitude = position.coords.latitude;
-//       var longitude = position.coords.longitude;
-//       // $(#stops).append(latitude)
-//       var response =  ;
-//       return response;
-//       // return var currentPosition = {lat: latitude, lng: longitude};
-//     }
+function getRoutesRequest(stopObjects){
+  var allRoutes = [];
+  
+  stopObjects.forEach(function(busStop){
+     allRoutes.push("http://bustime.mta.info/api/siri/stop-monitoring.json?key=<%= ENV['MTA_API_KEY'] %>&MonitoringRef=" + busStop.stopId);
+  })
+  debugger;
+  return allRoutes;
+}
 
-//     function positionError(error){
-//       var locationError = 'ERROR: ' + error.code + ': ' + error.message;
-//     }
 
-     
-//       function getNearestStops(response){
-//         $.ajax({
-//           type: "GET",
-//           dataType: "jsonp",
-//           url: response,
-//           data: {},
-//           success: function(result){    
-//             return var stopObjects = $(result)[0].data.stops;
-//           };
+//                   // START AJAX CALL
+
+//                   $.ajax({
+//                     type: "GET",
+//                     dataType: "jsonp",
+//                     url: buses,
+//                     data: {},
+//                     success: function(result){
+//                       // Retrives the next few buses that are stopping at that stop.
+//                       var allBuses = result.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit;
+//                       // debugger;
+
+//                       allBuses.forEach(function(thisBus){
+//                         var farAway = thisBus.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance ;
+                        
+//                         busStop.destination = thisBus.MonitoredVehicleJourney.DestinationName;  
+//                         busStop.nextBus.push(farAway);
+//                         debugger;
+//                       })
+//                     }
+//                   });
+
+
+
+//                   // END AJAX CALL
+
+//                   // debugger;
+//                 });
+
+//                 // debugger;
+                
+//           }                   
 //         });
 //       }
+//            findNearestStops();  
+//                 // debugger;
 
-//       getNearestStops(response);
-
-
-//     [].forEach.call(stopObjects, function(stopObjects){   
-//                 var stopName = stopObjects.name.toLowerCase();
-//               $('#stops').append(
-//                 "Bus Stop Location: " + stopName + '<br>'
-//             );
-//           });
-
-
-
-
-
-
-//     // // Store nearest bus stops as objects
-
-//     // nearestBusStops = [];
-
-//     // function BusStop(stopId, streets, direction, nextBus){
-//     //   this.stopId = stopId;
-//     //   this.streets = streets;
-//     //   this.direction = direction;
-//     //   this.nextBus = nextBus;
-//     // }
-
-// });
+//     }
 
 
 
