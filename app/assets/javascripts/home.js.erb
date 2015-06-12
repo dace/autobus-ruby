@@ -2,48 +2,101 @@
 
 $(document).ready(function(){
 
-    navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
+      // Gets the user's location
+      navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
 
-    // Gets the user's location
-
-    function positionSuccess(position){
-      var latitude = position.coords.latitude;
-      var longitude = position.coords.longitude;
-
-        var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=" + latitude + "&lon=" + longitude + "&latSpan=0.003&lonSpan=0.003&key=<%= ENV['MTA_API_KEY'] %>" ;
-        // debugger;
-      function nearestStops(){
-        // debugger;
-        // var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=40.708727599999996&lon=-74.002798&latSpan=0.005&lonSpan=0.005&key=<%= ENV['MTA_API_KEY'] %>" ;
-
-        $.ajax({
-          type: "GET",
-          dataType: "jsonp",
-          url: response,
-          data: {},
-          success: function(result){    
-            var stopObjects = $(result)[0].data.stops ;
-            
-              
-            [].forEach.call(stopObjects, function(stopObjects){
-                
-                var stopName = stopObjects.name.toLowerCase();
-              $('#stops').append(
-                "Bus Stop Location: " + stopName + '<br>'
-            );
-              
-          });
-
-          }
-        });
+      // Executes if a position is found
+      function positionSuccess(position){
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
         
+        var currentLocationRequest = stopMonitorRequest(latitude, longitude);
+        var stops = findNearestStops(currentLocationRequest);
+        // var routeObjects = ;
 
       }
-      nearestStops();
-    }
 
-    function positionError(error){
-      console.warn('ERROR: ' + error.code + ': ' + error.message);
-    }
+      // Executes if no position is found
+      function positionError(error){
+        return console.warn('ERROR: ' + error.code + ': ' + error.message);
+      }
 
 });
+    
+
+
+
+
+
+function stopMonitorRequest(latitude, longitude){
+  var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=" + latitude + "&lon=" + longitude + "&latSpan=0.003&lonSpan=0.003&key=<%= ENV['MTA_API_KEY'] %>" ;
+  return response;
+}
+
+
+function findNearestStops(response){
+  $.ajax({
+    type: "GET",
+    dataType: "jsonp",
+    url: response,
+    data: {},
+    success: function(result){    
+      var stopObjects = Array.prototype.slice.call(result.data.stops);
+      getRoutesRequest(stopObjects);
+    }
+  })
+}
+               
+
+function getRoutesRequest(stopObjects){
+  var allRoutes = [];
+  
+  stopObjects.forEach(function(busStop){
+     allRoutes.push("http://bustime.mta.info/api/siri/stop-monitoring.json?key=<%= ENV['MTA_API_KEY'] %>&MonitoringRef=" + busStop.stopId);
+  })
+  debugger;
+  return allRoutes;
+}
+
+
+//                   // START AJAX CALL
+
+//                   $.ajax({
+//                     type: "GET",
+//                     dataType: "jsonp",
+//                     url: buses,
+//                     data: {},
+//                     success: function(result){
+//                       // Retrives the next few buses that are stopping at that stop.
+//                       var allBuses = result.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit;
+//                       // debugger;
+
+//                       allBuses.forEach(function(thisBus){
+//                         var farAway = thisBus.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance ;
+                        
+//                         busStop.destination = thisBus.MonitoredVehicleJourney.DestinationName;  
+//                         busStop.nextBus.push(farAway);
+//                         debugger;
+//                       })
+//                     }
+//                   });
+
+
+
+//                   // END AJAX CALL
+
+//                   // debugger;
+//                 });
+
+//                 // debugger;
+                
+//           }                   
+//         });
+//       }
+//            findNearestStops();  
+//                 // debugger;
+
+//     }
+
+
+
