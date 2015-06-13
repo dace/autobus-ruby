@@ -19,13 +19,13 @@ $(document).ready(function(){
 });
     
 
-// Creates a URL for the MTA's stop API with the user's current location
+// // Creates a URL for the MTA's stop API with the user's current location
 function stopMonitorRequest(latitude, longitude){
   var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=" + latitude + "&lon=" + longitude + "&latSpan=0.003&lonSpan=0.003&key=<%= ENV['MTA_API_KEY'] %>" ;
   return response;
 }
 
-// Finds all the nearest bus stops
+// // Finds all the nearest bus stops
 function findNearestStops(response){
   $.ajax({
     type: "GET",
@@ -34,101 +34,66 @@ function findNearestStops(response){
     data: {},
     success: function(result){    
       var stopObjects = Array.prototype.slice.call(result.data.stops);
-      groupStopsWithRoutes(stopObjects);
+      setStopObjects(stopObjects);
     }
-  })
-}
-           
-// {
-//   stopID: "13432142",
-//   routes: [{object1}, {object2}, {object3}]
-// }
-
-
-
-function groupStopsWithRoutes(stopObjects){
-  var allStopIDs = [];
- 
-  // Only need unique stop IDs for now -- use those unique IDs to grab all the information in the call to the approaching buses API.
-
-    stopObjects.forEach(function(stopObject){
-            allStopIDs.push(stopObject.code);
-        
-        // if (groupedStopsByID.length === 0){
-        //   var newStop = {
-        //     stopID: stopObject.code,
-        //     crossStreets: stopObject.name,
-        //     routes: []
-        //   }
-        //   groupedStopsByID.push(newStop);
-        // } 
-    })
-         // debugger; // console.log(groupedStopsByID);
-  var uniqueStopIDs = _.uniq(allStopIDs)
-  debugger;
+  });
 }
 
-// function getRoutesRequest(stopObjects){
-//   var allRouteObjects = [];
-//   stopObjects.forEach(function(stopObject){        
-//     stopObject.routes.forEach(function(route){
-//       allRouteObjects.push({
-//         stopId: stopObject.code,
-//         busId: route.shortName,
-//         crossStreets: stopObject.name,
-//         direction: "",
-//         nextBus: []
-//       });
-//     })    
-//   }); 
-//   checkNextBuses(allRouteObjects);
-// }
 
+// Set stops objects
+function setStopObjects(stopObjects){
+  var setStops = [];
 
-// function checkNextBuses(allRouteObjects){
-//   allRouteObjects.forEach(function(route){
-//     console.log(route);    
-//   })
-// }
+  stopObjects.forEach(function(stop){
+    setStops.push({
+      crossStreets: stop.name,
+      stopID: stop.code,
+      latitude: stop.lat,
+      longitude: stop.lon,
+      routes: []
+    });
+  });
 
+  getArrivingBuses(setStops);
+}
 
+// Sets routes and arriving buses for each stop
 
+function getArrivingBuses(setStops){
+  
+  var allStopsWithRoutes = setStops;
 
-//                   // START AJAX CALL
+  allStopsWithRoutes.forEach(function(stop){
+    var route = "http://bustime.mta.info/api/siri/stop-monitoring.json?key=<%= ENV['MTA_API_KEY'] %>&MonitoringRef=" + stop.stopID;
+   
+      $.ajax({
+        type: "GET",
+        dataType: "jsonp",
+        url: route,
+        data: {},
+        success: function(result){
+          
+          var nextBuses = result.Siri.ServiceDelivery.StopMonitoringDelivery;
 
-//                   $.ajax({
-//                     type: "GET",
-//                     dataType: "jsonp",
-//                     url: buses,
-//                     data: {},
-//                     success: function(result){
-//                       // Retrives the next few buses that are stopping at that stop.
-//                       var allBuses = result.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit;
-//                       // debugger;
+          nextBuses.forEach(function(thisBus){
+            thisBus.MonitoredStopVisit.forEach(function(stopVisit){
+              
+              var busNameAPI = stopVisit.MonitoredVehicleJourney.PublishedLineName;
+              var busDistanceAPI = stopVisit.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
+              var busStopsAwayAPI = stopVisit.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.StopsFromCall;
+              var busDestinationAPI = stopVisit.MonitoredVehicleJourney.DestinationName;
 
-//                       allBuses.forEach(function(thisBus){
-//                         var farAway = thisBus.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance ;
-                        
-//                         busStop.destination = thisBus.MonitoredVehicleJourney.DestinationName;  
-//                         busStop.nextBus.push(farAway);
-//                         debugger;
-//                       })
-//                     }
-//                   });
+              stop.routes.push({
+                busName: busNameAPI,
+                distanceAway: busDistanceAPI,
+                stopsAway: busStopsAwayAPI,
+                destination: busDestinationAPI
+              });   
+            });
+          });
+        }
+      });
+  });
+  
+}
 
-
-
-//                   // END AJAX CALL
-
-//                   // debugger;
-//                 });
-
-//                 // debugger;
-                
-//           }                   
-//         });
-//       }
-//            findNearestStops();  
-//                 // debugger;
-
-//     }
