@@ -19,13 +19,13 @@ $(document).ready(function(){
 });
     
 
-// // Creates a URL for the MTA's stop API with the user's current location
+// Creates a URL for the MTA's stop API with the user's current location
 function stopMonitorRequest(latitude, longitude){
   var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=" + latitude + "&lon=" + longitude + "&latSpan=0.003&lonSpan=0.003&key=<%= ENV['MTA_API_KEY'] %>" ;
   return response;
 }
 
-// // Finds all the nearest bus stops
+// Finds all the nearest bus stops
 function findNearestStops(response){
   $.ajax({
     type: "GET",
@@ -38,7 +38,6 @@ function findNearestStops(response){
     }
   });
 }
-
 
 // Set stops objects
 function setStopObjects(stopObjects){
@@ -58,7 +57,6 @@ function setStopObjects(stopObjects){
 }
 
 // Sets routes and arriving buses for each stop
-
 function getArrivingBuses(setStops){
   
   var allStopsWithRoutes = setStops;
@@ -66,34 +64,65 @@ function getArrivingBuses(setStops){
   allStopsWithRoutes.forEach(function(stop){
     var route = "http://bustime.mta.info/api/siri/stop-monitoring.json?key=<%= ENV['MTA_API_KEY'] %>&MonitoringRef=" + stop.stopID;
    
-      $.ajax({
-        type: "GET",
-        dataType: "jsonp",
-        url: route,
-        data: {},
-        success: function(result){
-          
-          var nextBuses = result.Siri.ServiceDelivery.StopMonitoringDelivery;
+    $.ajax({
+      type: "GET",
+      dataType: "jsonp",
+      url: route,
+      data: {},
+      success: function(result){
+        
+        var nextBuses = result.Siri.ServiceDelivery.StopMonitoringDelivery;
 
-          nextBuses.forEach(function(thisBus){
-            thisBus.MonitoredStopVisit.forEach(function(stopVisit){
+        nextBuses.forEach(function(thisBus){
+          thisBus.MonitoredStopVisit.forEach(function(stopVisit){
+            
+            var busNameAPI = stopVisit.MonitoredVehicleJourney.PublishedLineName;
+            var busDistanceAPI = stopVisit.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
+            var busStopsAwayAPI = stopVisit.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.StopsFromCall;
+            var busDestinationAPI = stopVisit.MonitoredVehicleJourney.DestinationName;
+
+            stop.routes.push({
+              busName: busNameAPI,
+              distanceAway: busDistanceAPI,
+              stopsAway: busStopsAwayAPI,
+              destination: busDestinationAPI
+            }); 
               
-              var busNameAPI = stopVisit.MonitoredVehicleJourney.PublishedLineName;
-              var busDistanceAPI = stopVisit.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
-              var busStopsAwayAPI = stopVisit.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.StopsFromCall;
-              var busDestinationAPI = stopVisit.MonitoredVehicleJourney.DestinationName;
-
-              stop.routes.push({
-                busName: busNameAPI,
-                distanceAway: busDistanceAPI,
-                stopsAway: busStopsAwayAPI,
-                destination: busDestinationAPI
-              });   
-            });
           });
-        }
-      });
+        });
+      }
+    });
   });
-  
+  placeOnPage(allStopsWithRoutes);
 }
 
+// Appends stops to the page
+function placeOnPage(allStopsWithRoutes){
+  var routeObjects = [];
+  allStopsWithRoutes.forEach(function(stop){
+    // console.log(stop)
+    debugger;
+    routes.forEach(function(route){
+      routeObjects.push({
+        busName: route.busName,
+        crossStreets: stop.crossStreets,
+        stopLatitude: stop.latitude,
+        stopLongitude: stop.longitude,
+        busDestination: route.destination,
+        busDistanceAway: route.distanceAway,
+        busStopsAway: route.stopsAway
+      })
+    });
+  })
+  // console.log(routeObjects)
+}
+
+
+    // $('#stops').append("Stop: " + stop.crossStreets + "<br>" +
+      // stop.routes.forEach(function(route){
+        // console.log("HI");
+        // "Bus Name: " + busName + "<br>" + 
+        // "Stops Away: " + stopsAway + "<br>" +
+        // "Destination: " + destination + "<p>"
+      // })
+    // );    
