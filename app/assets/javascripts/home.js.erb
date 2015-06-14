@@ -68,6 +68,8 @@ function requestStopData(stopObjects){
           var busDestination = stop.MonitoredVehicleJourney.DestinationName;
           var busDistanceAway = stop.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
           var busStopsAway = stop.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.StopsFromCall;
+          $('.my-buttons').click(function(){
+
 
           $('#stops').append(
             "<div class='bus-item-header col-xs-12'>" + 
@@ -79,6 +81,7 @@ function requestStopData(stopObjects){
               + busDistanceAway + "<br>" +
               busStopsAway + " stops away" + "<p>" + "</div>"
             );        
+          });
         }
       });     
       }
