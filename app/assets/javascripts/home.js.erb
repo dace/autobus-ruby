@@ -70,10 +70,14 @@ function requestStopData(stopObjects){
           var busStopsAway = stop.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.StopsFromCall;
 
           $('#stops').append(
-            currentStopOBA.name + ": " + stop.MonitoredVehicleJourney.PublishedLineName + "<br>" +
-            busDestination + "<br>" +
-            busDistanceAway + "<br>" +
-            busStopsAway + "<p>"
+            "<div class='bus-item-header'>" + 
+              "<h2>" + stop.MonitoredVehicleJourney.PublishedLineName + "</h2>" + "<br>" + "<span class='line-info'>"+ 
+              currentStopOBA.name + "<br>" + currentStopOBA.code + "<br>" +
+              "Destination: " + busDestination + "<br>" + "</span>"  
+            + "</div>" + 
+            "<div class='bus-item'>"
+              + busDistanceAway + "<br>" +
+              busStopsAway + " stops away" + "<p>" + "</div>"
             );        
         }
       });     

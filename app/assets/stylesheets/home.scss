@@ -1,3 +1,67 @@
-// Place all the styles related to the home controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+@import url(http://fonts.googleapis.com/css?family=Montserrat);
+
+.bus-item {
+  padding: 10px;
+  clear: float;
+}
+
+.bus-item-header {
+  background-color: #f2f2f2;
+  width: 100%;
+  padding: 10px;
+}
+
+.title {
+  height: 130px;
+  width: 100%;
+}
+
+.icon {
+  padding: 50px;
+}
+
+.bus-line > h2 {
+  font-family: 'Open Sans';
+  font-weight: 800;
+  width: 100%;
+  margin: 0;
+}
+
+.line-info {
+  font-family: 'Open Sans';
+  font-weight: 400;
+}
+
+.welcome > p {
+  font-family: 'Open Sans';
+  font-weight: 400; 
+}
+
+
+.bus-line {
+  float: left;
+  padding: 25px 25px 25px 0px;
+}
+
+.logo2 {
+  width: 30%;
+}
+
+.text-title {
+  text-align: center;
+}
+
+.my-buttons {
+  width: 40%;
+}
+
+.logo {
+  width: 90%;
+}
+
+.welcome {
+  height: 150px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
