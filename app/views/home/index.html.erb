@@ -1,27 +1,27 @@
 <div class="container-fluid">
 
-  <div class="title">
+  <div class="col-xs-12 title">
    <p><center> <p>&nbsp;</p>
-   <%= image_tag('logo.png', class: "logo") %>
-   </center>
+   <%= image_tag('logo.png', class: "logo") %></center>
   </div>
 
-<div class="col-xs-12 icon">
-  <center><%= image_tag("pin.png", class: "logo2" ) %></center>
-</div>
-  <div class='col-xs-12'>
+  <div class="col-xs-12 icon">
+    <center><%= image_tag("pin.png", class: "logo2" ) %></center>
+  </div>
   
-  <p>
-  <span class="text-title"><center>Welcome to Autobus</center></span>
-  <p>The easiest way to see when your bus is arriving. Autobus finds the nearest bus stops (within a 1-2 blocks) and lists all of the incoming bus arrivals in real-time (not schedules).<p> Just press the button below and we'll do the rest! </p>
-  </p>
+  <div class='col-xs-12'>  
+    <span class="text-title">Welcome to Autobus</span>
+    <p>The easiest way to see when your bus is arriving. Autobus finds the nearest bus stops (within a 1-2 blocks) and lists all of the incoming bus arrivals in real-time (not schedules).<p> Just press the button below and we'll do the rest! </p>
+    </p>
   </div>
-  <div class="welcome">
-  <CENTER><%= image_tag("find_buses.png", class: "my-buttons") %></CENTER>
+
+  <div class="col-xs-12">
+    <CENTER><%= image_tag("find_buses.png", class: "my-buttons") %></CENTER>
   </div>
 
 
-  <div class="welcome">
+  <div class="welcome col-xs-12">
     <span id="stops"></span>
   </div>
+
 </div>

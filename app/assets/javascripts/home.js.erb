@@ -1,7 +1,7 @@
 "use strict";
 
 $(document).ready(function(){
-  alert("WOOT WOOT");
+  
   navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
 
   function positionSuccess(position){
@@ -70,12 +70,12 @@ function requestStopData(stopObjects){
           var busStopsAway = stop.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.StopsFromCall;
 
           $('#stops').append(
-            "<div class='bus-item-header'>" + 
+            "<div class='bus-item-header col-xs-12'>" + 
               "<h2>" + stop.MonitoredVehicleJourney.PublishedLineName + "</h2>" + "<br>" + "<span class='line-info'>"+ 
               currentStopOBA.name + "<br>" + currentStopOBA.code + "<br>" +
               "Destination: " + busDestination + "<br>" + "</span>"  
             + "</div>" + 
-            "<div class='bus-item'>"
+            "<div class='bus-item col-xs-12'>"
               + busDistanceAway + "<br>" +
               busStopsAway + " stops away" + "<p>" + "</div>"
             );        
