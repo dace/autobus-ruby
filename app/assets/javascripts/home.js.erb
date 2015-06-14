@@ -7,7 +7,7 @@ $(document).ready(function(){
   function positionSuccess(position){
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
-    
+
     var currentLocationRequest = stopMonitorRequest(latitude, longitude);
     findNearestStops(currentLocationRequest);
   }
