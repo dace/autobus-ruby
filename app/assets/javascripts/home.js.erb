@@ -33,6 +33,7 @@ function findNearestStops(response){
     url: response,
     data: { format: 'json' },
     success: function(result){    
+      debugger;
       var stopObjects = Array.prototype.slice.call(result.data.stops);
       requestStopData(stopObjects);
     }
