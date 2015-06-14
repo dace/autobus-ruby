@@ -7,7 +7,7 @@ $(document).ready(function(){
   function positionSuccess(position){
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
-
+    
     var currentLocationRequest = stopMonitorRequest(latitude, longitude);
     findNearestStops(currentLocationRequest);
   }
@@ -33,6 +33,7 @@ function findNearestStops(response){
     url: response,
     data: {},
     success: function(result){    
+      debugger;
       var stopObjects = Array.prototype.slice.call(result.data.stops);
       requestStopData(stopObjects);
     }
@@ -68,19 +69,18 @@ function requestStopData(stopObjects){
           var busDestination = stop.MonitoredVehicleJourney.DestinationName;
           var busDistanceAway = stop.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
           var busStopsAway = stop.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.StopsFromCall;
+
           $('.my-buttons').click(function(){
-
-
-          $('#stops').append(
-            "<div class='bus-item-header col-xs-12'>" + 
-              "<h2>" + stop.MonitoredVehicleJourney.PublishedLineName + "</h2>" + "<br>" + "<span class='line-info'>"+ 
-              currentStopOBA.name + "<br>" + currentStopOBA.code + "<br>" +
-              "Destination: " + busDestination + "<br>" + "</span>"  
-            + "</div>" + 
-            "<div class='bus-item col-xs-12'>"
-              + busDistanceAway + "<br>" +
-              busStopsAway + " stops away" + "<p>" + "</div>"
-            );        
+            $('#stops').append(
+              "<div class='bus-item-header col-xs-12'>" + 
+                "<h2>" + stop.MonitoredVehicleJourney.PublishedLineName + "</h2>" + "<br>" + "<span class='line-info'>"+ 
+                currentStopOBA.name + "<br>" + currentStopOBA.code + "<br>" +
+                "Destination: " + busDestination + "<br>" + "</span>"  
+              + "</div>" + 
+              "<div class='bus-item col-xs-12'>"
+                + busDistanceAway + "<br>" +
+                busStopsAway + " stops away" + "<p>" + "</div>"
+              );        
           });
         }
       });     
