@@ -63,10 +63,14 @@ function requestStopData(stopObjects){
         if (currentStopSiri !== undefined){
 
           var currentStopOBA = thisStop;
-          
+          // debugger;
           var busName = stop.MonitoredVehicleJourney.PublishedLineName;
           var busDestination = stop.MonitoredVehicleJourney.DestinationName;
+          var busDestinationRegex = busDestination.replace(/ via.*/, '')
           var busDistanceAway = stop.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
+          
+          var googleMaps = "http://maps.google.com/maps?z=12&t=m&q=loc:" + currentStopOBA.lat + "+" + currentStopOBA.lon;
+          
           var busStopsAway = stop.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.StopsFromCall;
 
           $('.my-buttons').click(function(){
@@ -74,7 +78,7 @@ function requestStopData(stopObjects){
               "<div class='bus-item-header col-xs-12'>" + 
                 "<h2>" + stop.MonitoredVehicleJourney.PublishedLineName + "</h2>" + "<br>" + "<span class='line-info'>"+ 
                 currentStopOBA.name + "<br>" +
-                "TO: " + busDestination + "<br>" + "</span>"  
+                "TO: " + busDestinationRegex + "<br>" + "<a href=" + googleMaps + ">MAP</a>" + "<br>" + "</span>"  
               + "</div>" + 
               "<div class='bus-item col-xs-12'>"
                 + busDistanceAway + "<br>" +
