@@ -31,8 +31,8 @@ function findNearestStops(response){
     type: "GET",
     dataType: "jsonp",
     url: response,
+    data: { format: 'json' },
     success: function(result){    
-      debugger;
       var stopObjects = Array.prototype.slice.call(result.data.stops);
       requestStopData(stopObjects);
     }
@@ -52,6 +52,7 @@ function requestStopData(stopObjects){
       type: "GET",
       dataType: "jsonp",
       url: route,
+      data: { format: 'json' },
       success: function(result){
       
       var currentStopOBA = thisStop;
