@@ -33,16 +33,15 @@ function findNearestStops(response){
     url: response,
     data: { format: 'json' },
     success: function(result){    
-      // var stopObjects = Array.prototype.slice.call(result.data.stops);
-      requestStopData(result);
+      var stopObjects = Array.prototype.slice.call(result.data.stops);
+      requestStopData(stopObjects);
     }
   });
 }
 
 // Send a request for each stops latest info, display the request on page.
-function requestStopData(result){
-  var stopObjects = Array.prototype.slice.call(result.data.stops);
-
+function requestStopData(stopObjects){
+  
   stopObjects.forEach(function(stop){
   
     var route = "http://bustime.mta.info/api/siri/stop-monitoring.json?key=<%= ENV['MTA_API_KEY'] %>&MonitoringRef=" + stop.code;
@@ -74,8 +73,8 @@ function requestStopData(result){
             $('#stops').append(
               "<div class='bus-item-header col-xs-12'>" + 
                 "<h2>" + stop.MonitoredVehicleJourney.PublishedLineName + "</h2>" + "<br>" + "<span class='line-info'>"+ 
-                currentStopOBA.name + "<br>" + currentStopOBA.code + "<br>" +
-                "Destination: " + busDestination + "<br>" + "</span>"  
+                currentStopOBA.name + "<br>" +
+                "TO: " + busDestination + "<br>" + "</span>"  
               + "</div>" + 
               "<div class='bus-item col-xs-12'>"
                 + busDistanceAway + "<br>" +

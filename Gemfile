@@ -1,4 +1,4 @@
-gem 'dotenv-rails', :groups => [:development, :test]
+gem 'dotenv-rails', :groups => [:development, :test, :production]
 
 source 'https://rubygems.org'
 
