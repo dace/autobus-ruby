@@ -34,88 +34,92 @@ function findNearestStops(response){
     data: {},
     success: function(result){    
       var stopObjects = Array.prototype.slice.call(result.data.stops);
-      setStopObjects(stopObjects);
+      requestStopData(stopObjects);
     }
   });
 }
 
-// Set stops objects
-function setStopObjects(stopObjects){
-  var setStops = [];
-
-  stopObjects.forEach(function(stop){
-    setStops.push({
-      crossStreets: stop.name,
-      stopID: stop.code,
-      latitude: stop.lat,
-      longitude: stop.lon,
-      routes: []
-    });
-  });
-
-  getArrivingBuses(setStops);
-}
-
-// Sets routes and arriving buses for each stop
-function getArrivingBuses(setStops){
+// Send a request for each stops latest info
+function requestStopData(stopObjects){
   
-  var allStopsWithRoutes = setStops;
-
-  allStopsWithRoutes.forEach(function(stop){
-    var route = "http://bustime.mta.info/api/siri/stop-monitoring.json?key=<%= ENV['MTA_API_KEY'] %>&MonitoringRef=" + stop.stopID;
-   
+  stopObjects.forEach(function(stop){
+  
+    var route = "http://bustime.mta.info/api/siri/stop-monitoring.json?key=<%= ENV['MTA_API_KEY'] %>&MonitoringRef=" + stop.code;
+      
+    var thisStop = stop
+    
     $.ajax({
       type: "GET",
       dataType: "jsonp",
       url: route,
       data: {},
       success: function(result){
+      
+      var currentStopOBA = thisStop;
+      var currentStopSiri = result.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit
+      // debugger;
+      currentStopSiri.forEach(function(stop){
         
-        var nextBuses = result.Siri.ServiceDelivery.StopMonitoringDelivery;
+        if (currentStopSiri !== undefined){
 
-        nextBuses.forEach(function(thisBus){
-          thisBus.MonitoredStopVisit.forEach(function(stopVisit){
-            
-            var busNameAPI = stopVisit.MonitoredVehicleJourney.PublishedLineName;
-            var busDistanceAPI = stopVisit.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
-            var busStopsAwayAPI = stopVisit.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.StopsFromCall;
-            var busDestinationAPI = stopVisit.MonitoredVehicleJourney.DestinationName;
+            var currentStopOBA = thisStop;
+            // var distanceAway = MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
+            // var busName = MonitoredVehicleJourney.PublishedLineName
 
-            stop.routes.push({
-              busName: busNameAPI,
-              distanceAway: busDistanceAPI,
-              stopsAway: busStopsAwayAPI,
-              destination: busDestinationAPI
-            }); 
-              
-          });
-        });
+          $('#stops').append(currentStopOBA.name + ": " +  + " / " + " <p>");        
+        }
+
+      });     
+
       }
     });
   });
-  placeOnPage(allStopsWithRoutes);
+
 }
 
+
+
+
+// function setStopObjects(stopRequestResult, stopObjects){
+//   debugger;
+//   var readyBusStopObjects = [];
+//   var siriResult = Array.prototype.slice.call(stopRequestResult)
+//   stopObjects.forEach(function(stop){
+//     stopRequestResult.forEach(function(siriStop){
+      
+//     })
+//   });
+// }
+
+
+
+// function createBusStopObject(){
+
+// }
+
+
+
+
 // Appends stops to the page
-function placeOnPage(allStopsWithRoutes){
-  var routeObjects = [];
-  allStopsWithRoutes.forEach(function(stop){
-    // console.log(stop)
-    debugger;
-    routes.forEach(function(route){
-      routeObjects.push({
-        busName: route.busName,
-        crossStreets: stop.crossStreets,
-        stopLatitude: stop.latitude,
-        stopLongitude: stop.longitude,
-        busDestination: route.destination,
-        busDistanceAway: route.distanceAway,
-        busStopsAway: route.stopsAway
-      })
-    });
-  })
-  // console.log(routeObjects)
-}
+// function placeOnPage(allStopsWithRoutes){
+//   var routeObjects = [];
+//   allStopsWithRoutes.forEach(function(stop){
+//     // console.log(stop)
+//     debugger;
+//     routes.forEach(function(route){
+//       routeObjects.push({
+//         busName: route.busName,
+//         crossStreets: stop.crossStreets,
+//         stopLatitude: stop.latitude,
+//         stopLongitude: stop.longitude,
+//         busDestination: route.destination,
+//         busDistanceAway: route.distanceAway,
+//         busStopsAway: route.stopsAway
+//       })
+//     });
+//   })
+//   // console.log(routeObjects)
+// }
 
 
     // $('#stops').append("Stop: " + stop.crossStreets + "<br>" +
