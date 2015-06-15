@@ -18,7 +18,7 @@ body > p {
 }
 
 .bus-item-header {
-  background-color: #f2f2f2;
+  background-color: #F0A913;
   width: 100%;
   padding: 10px;
 }
@@ -36,11 +36,9 @@ body > p {
   font-family: "Montserrat";
   font-weight: 800;
   padding-left: 10px;
+  color: #fff;
 }
 
-.line-info {
-  padding: 10px;
-}
 
 .icon {
   padding: 50px;
@@ -51,11 +49,14 @@ body > p {
   font-weight: 800;
   width: 100%;
   margin: 0;
+  color: #fff;
 }
 
 .line-info {
   font-family: 'Open Sans';
   font-weight: 400;
+  color: #fff;
+  padding: 10px;
 }
 
 .welcome > p,
