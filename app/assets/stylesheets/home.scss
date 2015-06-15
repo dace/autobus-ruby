@@ -9,6 +9,7 @@ body > p {
   clear: float;
   width: 100%;
   background-color: #fff;
+  /*border: solid green 2px;*/
 }
 
 .stop-info {
@@ -90,6 +91,19 @@ body > p {
 .my-buttons {
   height: 120px;
 }
+
+.bus-info-left {
+  width: 40%;
+  /*border: solid 1px red;*/
+  float: left;
+}
+
+.bus-info-right {
+  width: 40%;
+  /*border: solid 1px red;*/
+  float: right;
+}
+
 
 .my-buttons {
   margin-top: 20px;
