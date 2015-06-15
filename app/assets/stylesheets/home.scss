@@ -27,7 +27,7 @@ body > p {
 }
 
 .title {
-  height: 130px;
+  height: 200px;
   width: 100%;
 }
 
@@ -82,6 +82,12 @@ body > p {
 
 .logo {
   width: 90%;
+}
+
+.icon_compass {
+  float: left;
+  height: 50px;
+  padding: 0px 10px 10px 0px;
 }
 
 #stops > .bus-item-header .col-xs-12 {
