@@ -21,7 +21,7 @@ $(document).ready(function(){
 
 // Creates a URL for the MTA's stop API with the user's current location
 function stopMonitorRequest(latitude, longitude){
-  var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=" + latitude + "&lon=" + longitude + "&latSpan=0.007&lonSpan=0.007&key=<%= ENV['MTA_API_KEY'] %>" ;
+  var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=" + latitude + "&lon=" + longitude + "&latSpan=0.003&lonSpan=0.003&key=<%= ENV['MTA_API_KEY'] %>" ;
   return response;
 }
 
@@ -90,7 +90,7 @@ function requestStopData(stopObjects){
 
             } else {
               $('#stops').append(
-                "<div class='bus-item-header col-xs-12 " + currentStopOBA.code + "'" + ">" + compass_image +
+                "<div class='bus-item-header col-xs-12 " + currentStopOBA.code + "'" + ">" + "<a href='" + googleMaps + "'>" + compass_image + "</a>" + 
                   "<h2>" + busName + "</h2>" + "<br>" + "<span class='line-info'>"+
                   currentStopOBA.name + "<br>" + 
                   "TO: " + busDestination + "<br>" + "<br>" + "</span>"  
