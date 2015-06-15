@@ -7,12 +7,23 @@ body > p {
 .bus-item {
   padding: 10px;
   clear: float;
+  width: 100%;
+  background-color: #fff;
+}
+
+.stop-info {
+  width: 100%;
+  margin: 0;
 }
 
 .bus-item-header {
   background-color: #f2f2f2;
   width: 100%;
   padding: 10px;
+}
+
+.compass {
+  width: 15%;
 }
 
 .title {
@@ -23,6 +34,11 @@ body > p {
 .bus-item-header > h2 {
   font-family: "Montserrat";
   font-weight: 800;
+  padding-left: 10px;
+}
+
+.line-info {
+  padding: 10px;
 }
 
 .icon {
@@ -68,9 +84,30 @@ body > p {
   width: 90%;
 }
 
+#stops > .bus-item-header .col-xs-12 {
+  padding: 30px;
+  margin: 0;
+  width: 100%;
+}
+
+#stops > .col-xs-12 {
+  padding: 0px;
+}
+
+body > div.container-fluid {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
 .welcome {
   height: 150px;
   padding-top: 50px;
   padding-bottom: 50px;
 }
 
+.container-fluid > .col-xs-12 {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
