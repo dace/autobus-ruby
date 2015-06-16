@@ -80,7 +80,7 @@ function requestStopData(stopObjects){
           $('.my-buttons').click(function(){
             
             if ($(thisBusHeader).length > 0){
-              $(thisBusHeader).last().append(
+              $(thisBusHeader).append(
                 "<div class='bus-item col-xs-12'>" +
                   "<table>" + "<tr>" + "<td>"+ "<center>" + busDistanceAway + "</center>"+ "</td>" + "<td>" + "<center>" + "<h2>" + busStopsAway + "</h2>" + " stops away"+ "</center>" + "</td>" + "</tr>" + "</table>" +
                 "</div>" 
