@@ -32,6 +32,10 @@ body > p {
 
 }
 
+table {
+  margin-bottom: 15px;
+}
+
 .content-text p,
 .content-text-geo p {
   line-height: 2em;
@@ -79,12 +83,14 @@ background-image: linear-gradient(to bottom, #3BFCFF 0%, #14A0C7 100%);
   width: 100%;
 }
 
-.bus-item-header > h2 {
+.bus-name {
   font-family: "Montserrat";
   font-weight: 800;
-  padding-left: 10px;
+  padding-left: 0px;
   color: #282828;
   margin-top: 30px;
+  margin-bottom: 0px;
+  line-height: 0.6;
 }
 
 
@@ -93,12 +99,14 @@ background-image: linear-gradient(to bottom, #3BFCFF 0%, #14A0C7 100%);
 }
 
 .bus-line > h2 {
-  font-family: 'Open Sans';
+  font-family: 'Montserrat';
   font-weight: 800;
   width: 100%;
   margin: 0;
   color: #282828;
 }
+
+
 
 span h2 {
   font-family: 'Open Sans';
@@ -138,15 +146,19 @@ span h2 {
 
 
 .icon_compass {
-  float: left;
   height: 70px;
   padding: 0px 10px 10px 0px;
-  margin: 20px 0px 0px 20px;
+  margin: 20px 15px 0px 20px;
 }
 
-.logo-bus, 
+.logo-bus {
+  height: 120px;
+}
+
 .my-buttons {
   height: 120px;
+  margin-top: 60px;
+  margin-bottom: 60px;
 }
 
 .bus-info-left {
@@ -162,11 +174,6 @@ span h2 {
 }
 
 
-.my-buttons {
-  margin-top: 20px;
-  margin-bottom: 20px
-}
-
 .logo {
   height: 40px;
   margin-top: 20px;
@@ -179,11 +186,22 @@ span h2 {
   padding: 0px 10px 10px 0px;
 }
 
+.bus-item > td,
+.bus-item-header > td {
+  width: 50%;
+}
+
+.bus-item > table {
+  width: 100%;
+  margin-bottom: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px
+}
+
 #stops > .bus-item-header .col-xs-12 {
   padding: 30px;
   margin: 0;
   width: 100%;
-  
 }
 
 #stops > .col-xs-12 {
