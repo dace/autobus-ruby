@@ -18,13 +18,60 @@ body > p {
 }
 
 .bus-item-header {
-  background-color: #F0A913;
+  background-color: #f4f4f4;
   width: 100%;
   padding: 10px;
 }
 
+.content-text-geo {
+  margin: 20px 20px 100px 30px;
+}
+
+.content-text {
+  margin: 20px 20px 100px 30px;
+
+}
+
+.content-text p,
+.content-text-geo p {
+  line-height: 2em;
+
+}
+
+.col-xs-12 h4 {
+  font-family: 'Montserrat';
+  font-weight: 400;
+  text-align: center;
+}
+
 .compass {
   width: 15%;
+}
+
+.full-all {
+  color: #fff;
+  background-image: -webkit-gradient(
+  linear,
+  left top,
+  left bottom,
+  color-stop(0, #3BFCFF),
+  color-stop(1, #14A0C7)
+);
+background-image: -o-linear-gradient(bottom, #3BFCFF 0%, #14A0C7 100%);
+background-image: -moz-linear-gradient(bottom, #3BFCFF 0%, #14A0C7 100%);
+background-image: -webkit-linear-gradient(bottom, #3BFCFF 0%, #14A0C7 100%);
+background-image: -ms-linear-gradient(bottom, #3BFCFF 0%, #14A0C7 100%);
+background-image: linear-gradient(to bottom, #3BFCFF 0%, #14A0C7 100%);
+}
+
+
+.pin {
+  height: 60px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+
 }
 
 .title {
@@ -36,7 +83,8 @@ body > p {
   font-family: "Montserrat";
   font-weight: 800;
   padding-left: 10px;
-  color: #fff;
+  color: #282828;
+  margin-top: 30px;
 }
 
 
@@ -49,13 +97,20 @@ body > p {
   font-weight: 800;
   width: 100%;
   margin: 0;
-  color: #fff;
+  color: #282828;
+}
+
+span h2 {
+  font-family: 'Open Sans';
+  font-weight: 800;
 }
 
 .line-info {
   font-family: 'Open Sans';
   font-weight: 400;
-  color: #fff;
+  font-size: 0.7em;
+  margin-bottom: 10px;
+  color: #282828;
   padding: 10px;
 }
 
@@ -86,6 +141,7 @@ body > p {
   float: left;
   height: 70px;
   padding: 0px 10px 10px 0px;
+  margin: 20px 0px 0px 20px;
 }
 
 .logo-bus, 
@@ -151,3 +207,27 @@ body > div.container-fluid {
   margin: 0;
   width: 100%;
 }
+
+
+
+
+
+
+
+
+
+/* 
+
+RED - #EC1C24 = [M1,M5 ]
+PURPLE - #99258E = [M2, M3, M9]
+CYAN - #00ADEE = [M4, M7, M8]
+
+
+
+
+*/
+
+
+
+
+
