@@ -22,7 +22,7 @@ $(document).ready(function(){
 
 // Creates a URL for the MTA's stop API with the user's current location
 function stopMonitorRequest(latitude, longitude){
-  var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=" + latitude + "&lon=" + longitude + "&latSpan=0.005&lonSpan=0.005&key=<%= ENV['MTA_API_KEY'] %>" ;
+  var response = "http://bustime.mta.info/api/where/stops-for-location.json?lat=" + latitude + "&lon=" + longitude + "&latSpan=0.009&lonSpan=0.009&key=<%= ENV['MTA_API_KEY'] %>" ;
   return response;
 }
 
@@ -73,7 +73,7 @@ function requestStopData(stopObjects){
           var busDistanceAway = stop.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.PresentableDistance;
           var busStopsAway = stop.MonitoredVehicleJourney.MonitoredCall.Extensions.Distances.StopsFromCall;
 
-          // Appending to DOM variables
+          // Variables for appending to the DOM
           var thisBusHeader = '.' + currentStopOBA.code;
           var compass_image = "<img src='/assets/compass-57282c795d837e8775337f44cdf20b3c3f5c0babbbb0eb87a1b5919f0b35168a.png' alt='Compass 57282c795d837e8775337f44cdf20b3c3f5c0babbbb0eb87a1b5919f0b35168a' class='icon_compass'>";
           var busIcon = "<img src='\/assets\/bus_icon-20eb68a828520548f07d0db8b69acf99e94d3979ef670ba83d6a4c6ee0ff207e.png' alt='Bus icon 20eb68a828520548f07d0db8b69acf99e94d3979ef670ba83d6a4c6ee0ff207e' class='bus-icon'>";
@@ -84,7 +84,7 @@ function requestStopData(stopObjects){
             
             if ($(thisBusHeader).length > 0){
               $(thisBusHeader).append(
-                "<div class='bus-item col-xs-12'>" +
+                "<div class='bus-item col-xs-12 INDIVIDUAL'>" +
                   "<table>" + "<tr>" + "<td>"+ "<center>" + busIcon + "<br>" +  busDistanceAway + "</center>"+ "</td>" + "<td>" + "<center>" + "<h2>" + busStopsAway + "</h2>" + " stops away"+ "</center>" + "</td>" + "</tr>" + "</table>" +
                 "</div>" 
                 );        
@@ -96,13 +96,10 @@ function requestStopData(stopObjects){
                 "<div class='bus-item-header col-xs-12 " + currentStopOBA.code + "'" + ">" + "<table>" + "<tr>" + "<td>" +
                   "<a href='" + googleMaps + "'>" + compass_image + "</a>" + 
                   "</td>" + "<td>" +
-                  "<h2 class='bus-name'>" + busName + "</h2>" + "<br>"
-                  + currentStopOBA.name + "<br>" + 
-                  "TO: " + busDestination + "</td>" + "</tr>" + "</table>" + "</div>" +
-               
-                // Bus details
-                "<div class='bus-item col-xs-12'>" +
-                  "<table>" + "<tr>" + "<td>"+ "<center>" + busIcon + "<br>" +busDistanceAway + "</center>" + "</td>" + "<td>" + "<center>" + "<h2>" + busStopsAway + "</h2>" + " stops away" + "</center>" + "</td>" + "</tr>" + "</table>" +
+                  "<h2 class='bus-name'>" + busName + "</h2>" + "<br>" + "<P>" + "<strong>" + "STOP: " + "</strong>"
+                  + currentStopOBA.name + "<br>"
+                  + "<strong>" + "TO: " + "</strong>" + busDestination + "</p>" + "</td>" + "</tr>" + "</table>" + "</div>" + "<div class='bus-item col-xs-12 GROUP'>" +
+                  "<table>" + "<tr>" + "<td>"+ "<center>" + busIcon + "<br>" +  busDistanceAway + "</center>"+ "</td>" + "<td>" + "<center>" + "<h2>" + busStopsAway + "</h2>" + " stops away"+ "</center>" + "</td>" + "</tr>" + "</table>" +
                 "</div>" 
               );        
             }
