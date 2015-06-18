@@ -72,8 +72,8 @@ table {
 }
 
 .full-all {
-  color: #fff;
-  background-image: -webkit-gradient(
+  background-color: #fff;
+  /*background-image: -webkit-gradient(
   linear,
   left top,
   left bottom,
@@ -84,10 +84,16 @@ background-image: -o-linear-gradient(bottom, #3BFCFF 0%, #14A0C7 100%);
 background-image: -moz-linear-gradient(bottom, #3BFCFF 0%, #14A0C7 100%);
 background-image: -webkit-linear-gradient(bottom, #3BFCFF 0%, #14A0C7 100%);
 background-image: -ms-linear-gradient(bottom, #3BFCFF 0%, #14A0C7 100%);
-background-image: linear-gradient(to bottom, #3BFCFF 0%, #14A0C7 100%);
+background-image: linear-gradient(to bottom, #3BFCFF 0%, #14A0C7 100%);*/
 }
 
+.full-all h4 {
+  color: #000;
+}
 
+.full-all p {
+  color: #cacaca;
+}
 .pin {
   height: 60px;
   margin-top: 20px;
