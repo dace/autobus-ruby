@@ -1,7 +1,64 @@
+
 @import url(http://fonts.googleapis.com/css?family=Montserrat);
+
+/*********************** Text ***********************/
 
 body > p {
   font-size: 2.5em;
+}
+
+span h2 {
+  font-family: 'Open Sans';
+  font-weight: 800;
+}
+
+.content-text > p,
+.content-text-geo > p {
+  font-family: 'Open Sans';
+}
+
+p {
+  font-family: 'Open Sans'
+}
+
+.content-text p,
+.content-text-geo p {
+  line-height: 2em;
+}
+
+.col-xs-12 h4 {
+  font-family: 'Montserrat';
+  font-weight: 400;
+  text-align: center;
+}
+
+.welcome > p,
+.col-xs-12 > p,
+.col-xs-12 > .text-title {
+  font-family: 'Open Sans';
+  font-weight: 400; 
+  line-height: 2;
+}
+
+.full-all h4 {
+  color: #000;
+}
+
+.full-all p {
+  color: #cacaca;
+}
+
+
+/*********************** Content Divs ***********************/
+
+.welcome-text {
+  background-image: image-url("city_bg.jpg");
+  background-size: cover;
+}
+
+.lets-go {
+  background-image: image-url("street_bg.jpg");
+  background-size: cover;
 }
 
 .bus-item {
@@ -16,22 +73,6 @@ body > p {
   margin: 0;
 }
 
-.bus-icon {
-  height: 35px;
-  margin-bottom: 12px;
-  margin-top: 15px;
-}
-
-.welcome-text {
-  background-image: image-url("city_bg.jpg");
-  background-size: cover;
-}
-
-.lets-go {
-  background-image: image-url("street_bg.jpg");
-  background-size: cover;
-}
-
 .bus-item-header {
   background-color: #f4f4f4;
   width: 100%;
@@ -39,43 +80,21 @@ body > p {
 }
 
 .content-text-geo {
-  margin: 20px 20px 50px 30px;
+  margin: 20px 20px 50px 20px;
 }
 
 .content-text {
-  margin: 60px 20px 50px 30px;
+  margin: 60px 20px 50px 20px;
   color: #fff;
 }
 
-.content-text > p,
-.content-text-geo > p {
-  font-family: 'Open Sans';
-}
-
-p {
-  font-family: 'Open Sans'
-}
 
 table {
   margin-bottom: 15px;
 }
 
 
-.content-text p,
-.content-text-geo p {
-  line-height: 2em;
 
-}
-
-.col-xs-12 h4 {
-  font-family: 'Montserrat';
-  font-weight: 400;
-  text-align: center;
-}
-
-.compass {
-  width: 15%;
-}
 
 .full-all {
   background-color: #fff;
@@ -93,21 +112,6 @@ background-image: -ms-linear-gradient(bottom, #3BFCFF 0%, #14A0C7 100%);
 background-image: linear-gradient(to bottom, #3BFCFF 0%, #14A0C7 100%);*/
 }
 
-.full-all h4 {
-  color: #000;
-}
-
-.full-all p {
-  color: #cacaca;
-}
-.pin {
-  height: 60px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-left: auto;
-  margin-right: auto;
-
-}
 
 .title {
   height: 270px;
@@ -125,9 +129,6 @@ background-image: linear-gradient(to bottom, #3BFCFF 0%, #14A0C7 100%);*/
 }
 
 
-.icon {
-  padding: 50px;
-}
 
 .bus-line > h2 {
   font-family: 'Montserrat';
@@ -138,12 +139,6 @@ background-image: linear-gradient(to bottom, #3BFCFF 0%, #14A0C7 100%);*/
 }
 
 
-
-span h2 {
-  font-family: 'Open Sans';
-  font-weight: 800;
-}
-
 .line-info {
   font-family: 'Open Sans';
   font-weight: 400;
@@ -153,28 +148,28 @@ span h2 {
   padding: 10px;
 }
 
-.welcome > p,
-.col-xs-12 > p,
-.col-xs-12 > .text-title {
-  font-family: 'Open Sans';
-  font-weight: 400; 
-  line-height: 2;
-}
-
-
 .bus-line {
   float: left;
   padding: 25px 25px 25px 0px;
 }
 
-.logo2 {
-  width: 30%;
-}
 
 .text-title {
   text-align: center;
 }
 
+/*********************** Images ***********************/
+.pin {
+  height: 60px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.icon {
+  padding: 50px;
+}
 
 .icon_compass {
   height: 70px;
@@ -182,8 +177,22 @@ span h2 {
   margin: 20px 15px 0px 20px;
 }
 
+.logo2 {
+  width: 30%;
+}
+
+.compass {
+  width: 15%;
+}
+
 .logo-bus {
   height: 150px;
+}
+
+.bus-icon {
+  height: 35px;
+  margin-bottom: 12px;
+  margin-top: 15px;
 }
 
 .my-buttons {
@@ -259,20 +268,13 @@ body > div.container-fluid {
 
 
 
-
-
-
-
-
-
 /* 
+
+For color coding headers
 
 RED - #EC1C24 = [M1,M5 ]
 PURPLE - #99258E = [M2, M3, M9]
 CYAN - #00ADEE = [M4, M7, M8]
-
-
-
 
 */
 
